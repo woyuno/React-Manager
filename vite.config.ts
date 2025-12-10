@@ -7,15 +7,15 @@ export default defineConfig({
   server: {
     host: 'localhost',
     port: 3000,
-    // proxy: {
-    //   api: 'http://www.baidu.com'
-    // }
+    proxy: {
+      '/api': 'http://api-driver.marsview.cc',
+    },
   },
   resolve: {
     alias: {
       // path需要安装  npm i @types/node -D
-      '@': path.resolve(__dirname, './src')
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
-  plugins: [react()]
+  plugins: [react()],
 })
