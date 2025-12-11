@@ -3,28 +3,38 @@ import Login from '@/views/login/Login'
 import Welcome from '@/views/Welcome'
 import Error403 from '@/views/403'
 import Error404 from '@/views/404'
+import Layout from '@/layout/layout'
 
 const routerConfig = [
   {
     path: '/',
-    element: <Welcome />
+    element: <Navigate to='/welcome' />,
   },
   {
     path: '/login',
-    element: <Login />
+    element: <Login />,
+  },
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/welcome',
+        element: <Welcome />,
+      },
+    ],
   },
   {
     path: '*',
-    element: <Navigate to="/404" />
+    element: <Navigate to='/404' />,
   },
   {
     path: '/403',
-    element: <Error403 />
+    element: <Error403 />,
   },
   {
     path: '/404',
-    element: <Error404 />
-  }
+    element: <Error404 />,
+  },
 ]
 
 export default function Router() {

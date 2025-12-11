@@ -5,9 +5,13 @@ import './App.css'
 
 function App() {
   return (
-    <ConfigProvider theme={{token:{
-      colorPrimary:'#00b96b'
-    }}}>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#00b96b',
+        },
+      }}
+    >
       <BrowserRouter>
         <Router />
       </BrowserRouter>

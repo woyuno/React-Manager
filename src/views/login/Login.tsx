@@ -3,11 +3,19 @@ import style from './Login.module.less'
 import api from '@/api/api'
 import { Login } from '@/types/api'
 import message from '@/utils/message'
+import { useState } from 'react'
 export default function LoginFC() {
+  const [loading, setLoading] = useState<boolean>(false)
   const onFinish = async (values: Login.params) => {
-    const data = await api.login(values)
-    localStorage.setItem('token', data)
-    message.success('登录成功')
+    try {
+      setLoading(true)
+      const data = await api.login(values)
+      setLoading(false)
+      localStorage.setItem('token', data)
+      message.success('登录成功')
+    } catch (error) {
+      setLoading(false)
+    }
   }
   return (
     <div className={style.login}>
@@ -23,7 +31,7 @@ export default function LoginFC() {
           </Form.Item>
 
           <Form.Item>
-            <Button type='primary' htmlType='submit' block size='large'>
+            <Button type='primary' htmlType='submit' block size='large' loading={loading}>
               确定
             </Button>
           </Form.Item>
