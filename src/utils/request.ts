@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { message } from 'antd'
 import env from '@/config/config'
-console.log(env)
+import type { Result } from '@/types/api'
 
 // 创建实例:
 const http = axios.create({
@@ -16,7 +16,6 @@ http.interceptors.request.use(config => {
   if (token) {
     config.headers.Authorization = 'Bearer ' + token
   }
-  console.log(env)
   if (env.mock) {
     config.baseURL = env.mockApi
   } else {
@@ -25,17 +24,26 @@ http.interceptors.request.use(config => {
   return config
 })
 // 响应拦截器
-http.interceptors.response.use(res => {
-  const data = res.data
-  if (data.code === 500001) {
-    message.error(data.msg)
-    localStorage.removeItem('token')
-    // location.href = '/login'
-  } else if (data.code != 0) {
-    message.error(data.msg)
-    return Promise.reject(data)
+http.interceptors.response.use(response => {
+  // const data: Result = res.data
+  // if (data.code === 500001) {
+  //   message.error(data.code + ':' + data.msg)
+  //   localStorage.removeItem('token')
+  //   return Promise.reject(data)
+  //   // location.href = '/login'
+  // } else if (data.code != 0) {
+  //   message.error(data.code + ':' + data.msg)
+  //   return Promise.reject(data)
+  // }
+  // return data.data
+
+  const res = response.data
+  if (res.code !== 200) {
+    message.error(res.code + ':' + res.msg)
+    return Promise.reject(new Error(res.msg))
   }
-  return data.data
+
+  return response.data
 })
 
 export default {

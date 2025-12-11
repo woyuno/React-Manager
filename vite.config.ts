@@ -8,7 +8,7 @@ export default defineConfig({
     host: 'localhost',
     port: 3000,
     proxy: {
-      '/api': 'http://api-driver.marsview.cc',
+      '/api': 'https://m1.apifoxmock.com/m1/7546357-7283098-default',
     },
   },
   resolve: {
