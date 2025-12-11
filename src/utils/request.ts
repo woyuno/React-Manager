@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { message } from 'antd'
+import message from './message'
 import env from '@/config/config'
 import type { Result } from '@/types/api'
 
@@ -24,26 +24,18 @@ http.interceptors.request.use(config => {
   return config
 })
 // 响应拦截器
-http.interceptors.response.use(response => {
-  // const data: Result = res.data
-  // if (data.code === 500001) {
-  //   message.error(data.code + ':' + data.msg)
-  //   localStorage.removeItem('token')
-  //   return Promise.reject(data)
-  //   // location.href = '/login'
-  // } else if (data.code != 0) {
-  //   message.error(data.code + ':' + data.msg)
-  //   return Promise.reject(data)
-  // }
-  // return data.data
-
-  const res = response.data
-  if (res.code !== 200) {
-    message.error(res.code + ':' + res.msg)
-    return Promise.reject(new Error(res.msg))
+http.interceptors.response.use(res => {
+  const data: Result = res.data
+  if (data.code === 500001) {
+    message.error(data.msg)
+    localStorage.removeItem('token')
+    return Promise.reject(data)
+    // location.href = '/login'
+  } else if (data.code != 0) {
+    message.error(data.msg)
+    return Promise.reject(data)
   }
-
-  return response.data
+  return data.data
 })
 
 export default {

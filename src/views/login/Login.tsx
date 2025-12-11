@@ -1,23 +1,18 @@
-import { Form, Input, Button, message } from 'antd'
+import { Form, Input, Button } from 'antd'
 import style from './Login.module.less'
 import api from '@/api/api'
 import { Login } from '@/types/api'
+import message from '@/utils/message'
 export default function LoginFC() {
   const onFinish = async (values: Login.params) => {
-    const data= await api.login(values)
-    localStorage.setItem('token',data)
-    message.open({
-      content:'登录成功',
-      type:'success'
-    })
-  }
-  function aa(){
-    message.error('sdfsdf')
+    const data = await api.login(values)
+    localStorage.setItem('token', data)
+    message.success('登录成功')
   }
   return (
     <div className={style.login}>
       <div className={style.loginWrapper}>
-        <div className={style.title} onClick={aa}>系统登录</div>
+        <div className={style.title}>系统登录</div>
         <Form name='basic' initialValues={{ remember: true }} onFinish={onFinish} autoComplete='off'>
           <Form.Item name='username' rules={[{ required: true, message: '请输入账号' }]}>
             <Input size='large' />
