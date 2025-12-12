@@ -1,7 +1,7 @@
 import axios from 'axios'
 import message from './message'
 import env from '@/config/config'
-import type { Result } from '@/types/api'
+import type { Result } from '@/types/types'
 
 // 创建实例:
 const http = axios.create({

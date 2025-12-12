@@ -1,6 +1,6 @@
 import { Navigate, useRoutes } from 'react-router-dom'
-import Login from '@/views/login/Login'
-import Welcome from '@/views/Welcome'
+import Login from '@/views/login/login'
+import Welcome from '@/views/welcome/welcome'
 import Error403 from '@/views/403'
 import Error404 from '@/views/404'
 import Layout from '@/layout/layout'
@@ -20,6 +20,10 @@ const routerConfig = [
       {
         path: '/welcome',
         element: <Welcome />,
+      },
+      {
+        path: '/dashboard',
+        element: <div>s</div>,
       },
     ],
   },

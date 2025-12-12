@@ -1,7 +1,7 @@
 import { Form, Input, Button } from 'antd'
-import style from './Login.module.less'
+import style from './login.module.less'
 import api from '@/api/api'
-import { Login } from '@/types/api'
+import { Login } from '@/types/types'
 import message from '@/utils/message'
 import { useState } from 'react'
 export default function LoginFC() {
@@ -12,7 +12,10 @@ export default function LoginFC() {
       const data = await api.login(values)
       setLoading(false)
       localStorage.setItem('token', data)
-      message.success('登录成功')
+      // message.success('登录成功')
+      setTimeout(() => {
+        location.href = '/welcome'
+      })
     } catch (error) {
       setLoading(false)
     }

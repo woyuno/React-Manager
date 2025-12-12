@@ -1,50 +1,39 @@
-import React from 'react'
-// import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons'
+import React, { useEffect } from 'react'
 import { Layout, theme } from 'antd'
 import NavHeader from '@/components/NavHeader/NavHeader'
-
-const { Header, Content, Footer, Sider } = Layout
-
-// const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map((icon, index) => ({
-//   key: String(index + 1),
-//   icon: React.createElement(icon),
-//   label: `nav ${index + 1}`,
-// }))
+import NavFooter from '@/components/NavFooter/NavFooter'
+import Menu from '@/components/Menu/Menu'
+import { Outlet } from 'react-router-dom'
+import api from '@/api/api'
+import { userBearStore } from '@/store/store'
+const { Content, Sider } = Layout
 
 const App: React.FC = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken()
+  const updateUserInfo =  userBearStore(state=>state.updateUserInfo)
+
+  
+  useEffect(() => {
+    getUserInof()
+  }, [])
+
+  const getUserInof = async () => {
+    const data = await api.getUserInfo()
+    updateUserInfo(data)
+  }
 
   return (
     <Layout>
-      <Sider
-        breakpoint='lg'
-        collapsedWidth='0'
-        onBreakpoint={broken => {
-          console.log(broken)
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type)
-        }}
-      >
-        侧边栏
+      <Sider>
+        <Menu />
       </Sider>
       <Layout>
         <NavHeader />
-        <Content style={{ margin: '24px 16px 0' }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            content
+        <Content className='content' style={{ height: '90vh', paddingTop: '30px', overflowY: 'auto' }}>
+          <div className='wrapper'>
+            <Outlet />
           </div>
+          <NavFooter />
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©{new Date().getFullYear()} Created by Ant UED</Footer>
       </Layout>
     </Layout>
   )

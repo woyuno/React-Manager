@@ -1,9 +1,11 @@
 import { MenuFoldOutlined } from '@ant-design/icons'
 import { Breadcrumb, Dropdown, Switch } from 'antd'
 import type { MenuProps } from 'antd'
+import { userBearStore } from '@/store/store'
 import './NavHeader.less'
 
 const NavHeader = () => {
+  const userInfo = userBearStore(state => state.userInfo)
   const breadList = [
     {
       title: '首页',
@@ -15,7 +17,7 @@ const NavHeader = () => {
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: '邮箱：sdfs@qq.com',
+      label: userInfo.userEmail,
     },
     {
       key: '2',
@@ -27,12 +29,12 @@ const NavHeader = () => {
     <div className='navHeader'>
       <div className='left'>
         <MenuFoldOutlined />
-        <Breadcrumb items={breadList} className='ml' /> 
+        <Breadcrumb items={breadList} className='ml' />
       </div>
       <div className='right'>
-        <Switch checkedChildren='暗黑' unCheckedChildren='默认' className='mr'/>
+        <Switch checkedChildren='暗黑' unCheckedChildren='默认' className='mr' />
         <Dropdown menu={{ items: items }} trigger={['click']}>
-          <span className='nickName'>JackMa</span>
+          <span className='nickName'>{userInfo.userName}</span>
         </Dropdown>
       </div>
     </div>
