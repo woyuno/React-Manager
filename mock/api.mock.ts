@@ -80,11 +80,11 @@ export default defineMock([
             createTime: "@datetime('yyyy-MM-dd HH:mm:ss')",
           },
         ],
-        page:{
-          pageNum:req.query.pageNum,
-          pageSize:req.query.pageSize,
-          total:100
-        }
+        page: {
+          pageNum: req.query.pageNum,
+          pageSize: req.query.pageSize,
+          total: 100,
+        },
       })
 
       // 4. 返回统一格式
@@ -93,6 +93,19 @@ export default defineMock([
           code: 0,
           msg: 'success',
           data,
+        })
+      )
+    },
+  },
+  {
+    // 创建用户
+    url: '/mock/users/create',
+    method: 'POST',
+    response(req, res) {
+      res.end(
+        JSON.stringify({
+          code: 0,
+          msg: 'success',
         })
       )
     },

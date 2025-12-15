@@ -3,7 +3,10 @@ import { PageParams, User } from '@/types/types'
 import { Button, Form, Input, Select, Space, Table, TableProps } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import type { ColumnsType } from 'antd/es/table'
-import { useEffect, useState } from 'react'
+import { useEffect, useImperativeHandle, useRef, useState } from 'react'
+import CreateUser from './CreateUser'
+import type { IAction } from '@/types/modal'
+
 export default function UserList() {
   const [form] = Form.useForm()
   const [data, setData] = useState<User.UserItem[]>([])
@@ -12,6 +15,9 @@ export default function UserList() {
     current: 1,
     pageSize: 10,
   })
+  const userRef = useRef<{
+    open: (type: IAction, data?: User.UserItem) => void
+  }>(null)
   useEffect(() => {
     getUserList({
       ...form.getFieldsValue(), // 表单值
@@ -28,7 +34,7 @@ export default function UserList() {
     })
   }
   // 重置
-  const handleReset=()=>{
+  const handleReset = () => {
     form.resetFields()
     handleSearch()
   }
@@ -42,6 +48,10 @@ export default function UserList() {
       current: data.page.pageNum,
       pageSize: data.page.pageSize,
     })
+  }
+  // 创建用户窗口:
+  const handleCreate = ()=>{
+    userRef.current?.open('create')
   }
 
   const columns: ColumnsType<User.UserItem> = [
@@ -125,11 +135,12 @@ export default function UserList() {
         </Form.Item>
         <Form.Item name='state' label='状态'>
           <Space>
-            {' '}
             <Button type='primary' className='mr' onClick={handleSearch}>
               搜索
             </Button>
-            <Button type='default' onClick={handleReset}>重置</Button>
+            <Button type='default' onClick={handleReset}>
+              重置
+            </Button>
           </Space>
         </Form.Item>
       </Form>
@@ -137,7 +148,7 @@ export default function UserList() {
         <div className='headerWrapper'>
           <div className='title'>用户列表</div>
           <div className='action'>
-            <Button type='primary'>新增</Button>
+            <Button type='primary' onClick={handleCreate}>新增</Button>
             <Button type='primary' danger>
               批量删除
             </Button>
@@ -159,7 +170,7 @@ export default function UserList() {
             showTotal: function (total) {
               return `总共${total}条`
             },
-            onChange: function (page,pageSize) {
+            onChange: function (page, pageSize) {
               getUserList({
                 ...form.getFieldsValue(), // 表单值
                 pageNum: page,
@@ -169,6 +180,15 @@ export default function UserList() {
           }}
         />
       </div>
+      <CreateUser
+        mRef={userRef}
+        update={() => {
+          getUserList({
+            pageNum: 1,
+            pageSize: pagination.pageSize,
+          })
+        }}
+      />
     </div>
   )
 }

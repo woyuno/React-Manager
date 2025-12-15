@@ -16,4 +16,8 @@ export default {
   getUserList(params:User.params) {
     return request.get<ResultPage<User.UserItem>>('/users/list',params)
   },
+  // 创建用户
+  createUser(params:User.CreatePrams){
+    return request.post('/users/create',params)
+  }
 }

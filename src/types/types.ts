@@ -47,4 +47,16 @@ export namespace User {
     // deptName: string
     // userImg: string
   }
+
+  // 创建用户类型
+  export interface CreatePrams{
+    userName:string
+    userEmail:string
+    mobile?:number
+    deptId:string
+    job?:string
+    state?:number
+    roleList:string[]
+  }
+
 }
