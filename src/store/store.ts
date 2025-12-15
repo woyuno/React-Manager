@@ -5,17 +5,20 @@ interface userBear {
   userInfo: {
     userEmail: string
     userName: string
-  },
-  updateUserInfo:(userInfo: User.UserItem)=>void
+  }
+  updateUserInfo: (userInfo: User.UserItem) => void
 }
 export const userBearStore = create<userBear>(set => ({
   userInfo: {
     userEmail: '',
     userName: '',
   },
-  updateUserInfo: (userInfo: User.UserItem) => {
+  updateUserInfo: (user: User.UserItem) => {
     set({
-      userInfo,
+      userInfo: {
+        userName: user.userName,
+        userEmail: user.userEmail,
+      },
     })
   },
 }))

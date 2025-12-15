@@ -28,7 +28,7 @@ const App: React.FC = () => {
       </Sider>
       <Layout>
         <NavHeader />
-        <Content className='content' style={{ height: '90vh', paddingTop: '30px', overflowY: 'auto' }}>
+        <Content className='content' style={{ height: '90vh', padding: '20px', overflowY: 'auto' }}>
           <div className='wrapper'>
             <Outlet />
           </div>

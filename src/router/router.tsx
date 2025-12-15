@@ -4,6 +4,7 @@ import Welcome from '@/views/welcome/welcome'
 import Error403 from '@/views/403'
 import Error404 from '@/views/404'
 import Layout from '@/layout/layout'
+import User from '@/views/system/user/user'
 
 const routerConfig = [
   {
@@ -24,6 +25,10 @@ const routerConfig = [
       {
         path: '/dashboard',
         element: <div>s</div>,
+      },
+      {
+        path: '/userList',
+        element: <User />,
       },
     ],
   },

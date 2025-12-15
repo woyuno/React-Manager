@@ -9,9 +9,9 @@ export default function LoginFC() {
   const onFinish = async (values: Login.params) => {
     try {
       setLoading(true)
-      const data = await api.login(values)
+      const data: any = await api.login(values)
       setLoading(false)
-      localStorage.setItem('token', data)
+      localStorage.setItem('token', data.token)
       // message.success('登录成功')
       setTimeout(() => {
         location.href = '/welcome'
@@ -25,7 +25,7 @@ export default function LoginFC() {
       <div className={style.loginWrapper}>
         <div className={style.title}>系统登录</div>
         <Form name='basic' initialValues={{ remember: true }} onFinish={onFinish} autoComplete='off'>
-          <Form.Item name='username' rules={[{ required: true, message: '请输入账号' }]}>
+          <Form.Item name='userName' rules={[{ required: true, message: '请输入账号' }]}>
             <Input size='large' />
           </Form.Item>
 

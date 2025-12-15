@@ -5,8 +5,9 @@ import type { Result } from '@/types/types'
 
 // 创建实例:
 const http = axios.create({
+  baseURL: '/mock',
   timeout: 8000,
-  timeoutErrorMessage: '请求超时，请稍后再试',
+  timeoutErrorMessage: '请求超时，请稍后再试',  
   withCredentials: true,
 })
 
@@ -16,11 +17,11 @@ http.interceptors.request.use(config => {
   if (token) {
     config.headers.Authorization = 'Bearer ' + token
   }
-  if (env.mock) {
-    config.baseURL = env.mockApi
-  } else {
-    config.baseURL = env.baseApi
-  }
+  // if (env.mock) {
+  //   config.baseURL = env.mockApi
+  // } else {
+  //   config.baseURL = env.baseApi
+  // }
   return config
 })
 // 响应拦截器

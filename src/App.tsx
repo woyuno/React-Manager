@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 import Router from './router/router'
 import { ConfigProvider } from 'antd'
-import './App.css'
+import './App.less'
 
 function App() {
   return (

@@ -1,15 +1,16 @@
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path'
+import { defineConfig } from 'vite'
+import { mockDevServerPlugin } from 'vite-plugin-mock-dev-server'
 
 // https://vite.dev/config/
 export default defineConfig({
   server: {
     host: 'localhost',
     port: 3000,
-    proxy: {
-      '/api': 'https://m1.apifoxmock.com/m1/7546357-7283098-default',
-    },
+    // proxy: {
+    //   '/api': 'http://example.com/',
+    // },
   },
   resolve: {
     alias: {
@@ -17,5 +18,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  plugins: [react()],
+  plugins: [react(), mockDevServerPlugin({
+    prefix:'/mock'
+  })],
 })
