@@ -7,49 +7,31 @@ import { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import CreateUser from './CreateUser'
 import type { IAction } from '@/types/modal'
 import message from '@/utils/message'
+import { useAntdTable } from 'ahooks'
 
 export default function UserList() {
   const [form] = Form.useForm()
-  const [data, setData] = useState<User.UserItem[]>([])
-  const [total, setTotal] = useState(0)
   const [userIds, setUserIds] = useState<number[]>([])
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-  })
   const userRef = useRef<{
     open: (type: IAction, data?: User.UserItem) => void
   }>(null)
-  useEffect(() => {
-    getUserList({
-      ...form.getFieldsValue(), // 表单值
-      pageNum: 1,
-      pageSize: pagination.pageSize,
-    })
-  }, [])
-  //搜索
-  const handleSearch = () => {
-    getUserList({
-      ...form.getFieldsValue(), // 表单值
-      pageNum: 1,
-      pageSize: pagination.pageSize,
-    })
-  }
-  // 重置
-  const handleReset = () => {
-    form.resetFields()
-    handleSearch()
+
+  const getTableData = ({ current, pageSize }: { current: number; pageSize: number }, formData: User.params) => {
+    return api
+      .getUserList({
+        ...formData,
+        pageNum: current,
+        pageSize: pageSize,
+      })
+      .then(data => {
+        return {
+          total: data.page.total,
+          list: data.list,
+        }
+      })
   }
 
-  const getUserList = async (params: User.params = { pageNum: 1, pageSize: pagination.pageSize }) => {
-    const data = await api.getUserList(params)
-    setData(data.list)
-    setTotal(data.page.total)
-    setPagination({
-      current: data.page.pageNum,
-      pageSize: data.page.pageSize,
-    })
-  }
+  const { tableProps, search } = useAntdTable(getTableData,{form})
   // 点击新增:
   const handleCreate = () => {
     userRef.current?.open('create')
@@ -75,7 +57,7 @@ export default function UserList() {
       userIds: ids,
     })
     message.success('删除成功')
-    getUserList()
+    search.reset()
   }
   // 批量删除
   const handlePathConfirm = () => {
@@ -175,10 +157,10 @@ export default function UserList() {
         </Form.Item>
         <Form.Item name='state' label='状态'>
           <Space>
-            <Button type='primary' className='mr' onClick={handleSearch}>
+            <Button type='primary' className='mr' onClick={search.submit}>
               搜索
             </Button>
-            <Button type='default' onClick={handleReset}>
+            <Button type='default' onClick={search.reset}>
               重置
             </Button>
           </Space>
@@ -200,38 +182,20 @@ export default function UserList() {
           bordered
           rowSelection={{
             type: 'checkbox',
-            selectedRowKeys:userIds,
+            selectedRowKeys: userIds,
             onChange: selectedRowKeys => {
               setUserIds(selectedRowKeys as number[])
             },
           }}
-          dataSource={data}
           columns={columns}
           rowKey='userId'
-          pagination={{
-            total,
-            placement: ['none', 'bottomEnd'],
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            showQuickJumper: true,
-            showSizeChanger: true,
-            showTotal: function (total) {
-              return `总共${total}条`
-            },
-            onChange: function (page, pageSize) {
-              getUserList({
-                ...form.getFieldsValue(), // 表单值
-                pageNum: page,
-                pageSize: pageSize,
-              })
-            },
-          }}
+          {...tableProps}
         />
       </div>
       <CreateUser
         mRef={userRef}
         update={() => {
-          getUserList()
+          search.reset()
         }}
       />
     </div>
