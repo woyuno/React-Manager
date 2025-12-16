@@ -110,4 +110,30 @@ export default defineMock([
       )
     },
   },
+  {
+    // 编辑用户
+    url: '/mock/users/edit',
+    method: 'POST',
+    response(req, res) {
+      res.end(
+        JSON.stringify({
+          code: 0,
+          msg: 'success',
+        })
+      )
+    },
+  },
+  {
+    // 删除用户
+    url: '/mock/users/delete',
+    method: 'POST',
+    response(req, res) {
+      res.end(
+        JSON.stringify({
+          code: 0,
+          msg: 'success',
+        })
+      )
+    },
+  },
 ])

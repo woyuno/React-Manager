@@ -18,17 +18,24 @@ export default function CreateUser(props: IModalProp) {
   const open = (type: IAction, data?: User.UserItem) => {
     setAction(type)
     setVisible(true)
+    if (type == 'edit') {
+      form.setFieldsValue(data)
+    }
   }
   const handleSubmit = async () => {
     const valid = await form.validateFields()
     if (valid) {
-      console.log('valid', valid)
+      // console.log('valid', valid)
+      // console.log('xxx',form.getFieldsValue())
       if (action === 'create') {
-        const data = await api.createUser(form.getFieldsValue())
+        const data = await api.createUser(valid)
         message.success('创建成功')
-        hendleCancel()
-        props.update()
+      } else {
+        const data = await api.editeUser(valid)
+        message.success('修改成功')
       }
+      hendleCancel()
+      props.update()
     }
   }
   const hendleCancel = () => {
@@ -48,20 +55,23 @@ export default function CreateUser(props: IModalProp) {
       onCancel={hendleCancel}
     >
       <Form form={form} labelCol={{ span: 4 }} labelAlign='right'>
+        <Form.Item name='userId' hidden>
+          <Input />
+        </Form.Item>
         <Form.Item label='用户名称' name='userName' rules={[{ required: true, message: '请输入用户名称' }]}>
-          <Input placeholder='请输入用户名称'></Input>
+          <Input placeholder='请输入用户名称' />
         </Form.Item>
         <Form.Item label='用户邮箱' name='userEmail' rules={[{ required: true, message: '请输入用户邮箱' }]}>
-          <Input placeholder='请输入用户邮箱'></Input>
+          <Input placeholder='请输入用户邮箱' />
         </Form.Item>
         <Form.Item label='手机号' name='mobile'>
-          <Input type='number' placeholder='请输入手机号'></Input>
+          <Input type='number' placeholder='请输入手机号' />
         </Form.Item>
         <Form.Item label='部门' name='deptId' rules={[{ required: true, message: '请输入部门' }]}>
-          <Input placeholder='请输入部门'></Input>
+          <Input placeholder='请输入部门' />
         </Form.Item>
         <Form.Item label='岗位' name='job'>
-          <Input placeholder='请输入岗位'></Input>
+          <Input placeholder='请输入岗位' />
         </Form.Item>
         <Form.Item label='状态' name='state'>
           <Select>

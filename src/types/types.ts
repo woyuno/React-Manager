@@ -49,14 +49,17 @@ export namespace User {
   }
 
   // 创建用户类型
-  export interface CreatePrams{
-    userName:string
-    userEmail:string
-    mobile?:number
-    deptId:string
-    job?:string
-    state?:number
-    roleList:string[]
+  export interface CreatePrams {
+    userName: string
+    userEmail: string
+    mobile?: number
+    deptId: string
+    job?: string
+    state?: number
+    roleList: string[]
   }
-
+  // 编辑用户类型
+  export interface EditPrams extends CreatePrams {
+    userId: number
+  }
 }
