@@ -1,15 +1,18 @@
+import type { Dept, Login, Menu, ResultPage, User } from '@/types/types'
 import request from '@/utils/request'
-import type { Login, ResultPage, User, Dept, Menu } from '@/types/types'
 
 export default {
   // 登录
   login(params: Login.params) {
     return request.post<string>('/users/login', params)
   },
-
   // 获取用户信息
   getUserInfo() {
     return request.get<User.UserItem>('/users/getUserInfo')
+  },
+  // 获得菜单及权限列表
+  getPermissionList() {
+    return request.get<{ buttonList: string[]; menuList: Menu.MenuItem[] }>('/users/getPermissionList')
   },
 
   // 获取用户列表

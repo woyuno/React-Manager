@@ -1,4 +1,5 @@
 import type { Result } from '@/types/types'
+import { Menu } from '@/types/types'
 import { message } from 'antd'
 import axios from 'axios'
 
@@ -49,4 +50,14 @@ export default {
   post<T>(url: string, params?: object): Promise<T> {
     return http.post(url, params)
   },
+}
+// 获取页面路径
+export const getMenuPath = (list: Menu.MenuItem[]): string[] => {
+  return list.reduce((result: string[], item: Menu.MenuItem) => {
+    if (Array.isArray(item.children) && !item.buttons) {
+      return result.concat(getMenuPath(item.children))
+    } else {
+      return result.concat(item.path + '')
+    }
+  }, [])
 }

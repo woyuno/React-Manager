@@ -6,7 +6,8 @@ import Dept from '@/views/system/dept/dept'
 import Menu from '@/views/system/menu/menu'
 import User from '@/views/system/user/user'
 import Welcome from '@/views/welcome/welcome'
-import { Navigate, useRoutes } from 'react-router-dom'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
+import AuthLoader from './AuthLoader'
 
 const routerConfig = [
   {
@@ -18,7 +19,9 @@ const routerConfig = [
     element: <Login />,
   },
   {
+    id: 'layout',
     element: <Layout />,
+    loader: AuthLoader,
     children: [
       {
         path: '/welcome',
@@ -26,7 +29,7 @@ const routerConfig = [
       },
       {
         path: '/dashboard',
-        element: <div>s</div>,
+        element: <div>工作台</div>,
       },
       {
         path: '/userList',
@@ -56,9 +59,9 @@ const routerConfig = [
   },
 ]
 
-export default function Router() {
-  return useRoutes(routerConfig)
-}
+// export default function Router() {
+//   return useRoutes(routerConfig)
+// }
 
-// const router = createBrowserRouter(routerConfig)
-// export default router
+const router = createBrowserRouter(routerConfig)
+export default router
