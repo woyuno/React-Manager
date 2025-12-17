@@ -112,6 +112,7 @@ export default function DeptList() {
               onClick={() => {
                 handleDelete(record._id)
               }}
+              danger
             >
               删除
             </Button>

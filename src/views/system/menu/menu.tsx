@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from 'react'
 import CreateMenu from './CreateMenu'
 
 export default function MenuList() {
-  // const { modal } = App.useApp()
   const { modal, message } = App.useApp()
   const [form] = Form.useForm()
   const [data, setData] = useState<Menu.MenuItem[]>([])
@@ -26,8 +25,8 @@ export default function MenuList() {
     })
   }
   // 列表上点击添加部门
-  const handleSubCreate = (id: string) => {
-    menuRef.current?.open('edit', { parentId: id })
+  const handleSubCreate = (record: Menu.MenuItem) => {
+    menuRef.current?.open('edit', { parentId: record._id, orderBy: record.children?.length })
   }
 
   // 重置
@@ -43,7 +42,7 @@ export default function MenuList() {
   // 编辑
   const handleEdit = (record: Menu.MenuItem) => {
     console.log('record', record)
-    // deptRef.current?.open('edit', record)
+    menuRef.current?.open('edit', record)
   }
   // 删除
   const handleDelete = (id: string) => {
@@ -126,7 +125,7 @@ export default function MenuList() {
             <Button
               type='text'
               onClick={() => {
-                handleSubCreate(record._id)
+                handleSubCreate(record)
               }}
             >
               新增
@@ -144,6 +143,7 @@ export default function MenuList() {
               onClick={() => {
                 handleDelete(record._id)
               }}
+              danger
             >
               删除
             </Button>
@@ -154,7 +154,7 @@ export default function MenuList() {
   ]
   return (
     <div>
-      <Form className='search-form' layout='inline' form={form}>
+      <Form className='search-form' layout='inline' form={form} initialValues={{ menuState: 1 }}>
         <Form.Item label='菜单名称' name='menuName'>
           <Input placeholder='菜单名称' />
         </Form.Item>
