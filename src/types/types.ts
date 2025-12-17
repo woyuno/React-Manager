@@ -63,3 +63,54 @@ export namespace User {
     userId: number
   }
 }
+
+export namespace Dept {
+  export interface Params {
+    deptName?: string
+  }
+
+  export interface CreateParams {
+    deptName: string
+    parentId?: string
+    userName: string
+  }
+  export interface EditParams extends CreateParams {
+    id: string
+  }
+
+  export interface DeptItem {
+    _id: string
+    createTime: string
+    updateTime: string
+    deptName: string
+    parentId: string
+    userName: string
+    children: DeptItem[]
+  }
+}
+export namespace Menu {
+  export interface Params {
+    menuName: string
+    menuState: number
+  }
+  export interface CreateParams {
+    menuName: string
+    icon?: string
+    menuType: number
+    menuState: number
+    menuCode?: string
+    parentId?: string
+    path?: string
+    component?: string
+    orderBy: number
+  }
+  export interface MenuItem extends CreateParams {
+    _id: string
+    createTime: string
+    buttons?: MenuItem[]
+    children?: MenuItem[]
+  }
+  export interface EditParams extends CreateParams {
+    _id: string
+  }
+}

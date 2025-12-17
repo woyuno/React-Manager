@@ -1,15 +1,14 @@
 import api from '@/api/api'
-import { PageParams, User } from '@/types/types'
-import { Button, Form, Input, Modal, Select, Space, Table, TableProps } from 'antd'
-import { useForm } from 'antd/es/form/Form'
-import type { ColumnsType } from 'antd/es/table'
-import { useEffect, useImperativeHandle, useRef, useState } from 'react'
-import CreateUser from './CreateUser'
 import type { IAction } from '@/types/modal'
-import message from '@/utils/message'
+import { User } from '@/types/types'
 import { useAntdTable } from 'ahooks'
+import { App, Button, Form, Input, Modal, Select, Space, Table } from 'antd'
+import type { ColumnsType } from 'antd/es/table'
+import { useRef, useState } from 'react'
+import CreateUser from './CreateUser'
 
 export default function UserList() {
+  const { message } = App.useApp()
   const [form] = Form.useForm()
   const [userIds, setUserIds] = useState<number[]>([])
   const userRef = useRef<{
@@ -31,7 +30,7 @@ export default function UserList() {
       })
   }
 
-  const { tableProps, search } = useAntdTable(getTableData,{form})
+  const { tableProps, search } = useAntdTable(getTableData, { form })
   // 点击新增:
   const handleCreate = () => {
     userRef.current?.open('create')
@@ -140,7 +139,7 @@ export default function UserList() {
   ]
   return (
     <div className='userList'>
-      <Form form={form} className='searchForm' layout='inline' initialValues={{ state: 0 }}>
+      <Form form={form} className='search-form' layout='inline' initialValues={{ state: 0 }}>
         <Form.Item name='userId' label='用户Id'>
           <Input placeholder='请输入用户ID' />
         </Form.Item>
@@ -166,8 +165,8 @@ export default function UserList() {
           </Space>
         </Form.Item>
       </Form>
-      <div className='baseTable'>
-        <div className='headerWrapper'>
+      <div className='base-table'>
+        <div className='header-wrapper'>
           <div className='title'>用户列表</div>
           <div className='action'>
             <Button type='primary' onClick={handleCreate}>

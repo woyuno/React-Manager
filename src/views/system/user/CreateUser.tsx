@@ -1,11 +1,11 @@
-import { Modal, Form, Input, Select } from 'antd'
-import type { IModalProp, IAction } from '@/types/modal'
-import { useImperativeHandle, useState } from 'react'
-import type { User } from '@/types/types'
 import api from '@/api/api'
-import message from '@/utils/message'
+import type { IAction, IModalProp } from '@/types/modal'
+import type { User } from '@/types/types'
+import { App, Form, Input, Modal, Select } from 'antd'
+import { useImperativeHandle, useState } from 'react'
 
-export default function CreateUser(props: IModalProp) {
+export default function CreateUser(props: IModalProp<User.UserItem>) {
+  const { message } = App.useApp()
   const [visible, setVisible] = useState<boolean>(false)
   const [action, setAction] = useState<IAction>('create')
   // 暴露子组件open方法
@@ -46,7 +46,7 @@ export default function CreateUser(props: IModalProp) {
 
   return (
     <Modal
-      title='创建用户'
+      title={action === 'create' ? '创建用户' : '编辑用户'}
       okText='确定'
       cancelText='取消'
       width={800}

@@ -1,11 +1,10 @@
 import { RefObject } from 'react'
-import type { User } from './types'
 
 export type IAction = 'create' | 'edit' | 'delete'
 
-export interface IModalProp {
+export interface IModalProp<T> {
   mRef: RefObject<{
-    open: (type: IAction, data?: User.UserItem) => void
+    open: (type: IAction, data?: T) => void
   } | null>
   update: () => void
 }

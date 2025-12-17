@@ -1,10 +1,12 @@
-import { Navigate, useRoutes } from 'react-router-dom'
-import Login from '@/views/login/login'
-import Welcome from '@/views/welcome/welcome'
+import Layout from '@/layout/layout'
 import Error403 from '@/views/403'
 import Error404 from '@/views/404'
-import Layout from '@/layout/layout'
+import Login from '@/views/login/login'
+import Dept from '@/views/system/dept/dept'
+import Menu from '@/views/system/menu/menu'
 import User from '@/views/system/user/user'
+import Welcome from '@/views/welcome/welcome'
+import { Navigate, useRoutes } from 'react-router-dom'
 
 const routerConfig = [
   {
@@ -29,6 +31,14 @@ const routerConfig = [
       {
         path: '/userList',
         element: <User />,
+      },
+      {
+        path: '/deptList',
+        element: <Dept />,
+      },
+      {
+        path: '/menuList',
+        element: <Menu />,
       },
     ],
   },

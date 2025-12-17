@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import type { Login, ResultPage, User } from '@/types/types'
+import type { Login, ResultPage, User, Dept, Menu } from '@/types/types'
 
 export default {
   // 登录
@@ -27,5 +27,43 @@ export default {
   // 删除和批量删除用户
   delUser(params: { userIds: number[] }) {
     return request.post('/users/delete', params)
+  },
+
+  // 部门管理
+  // 部门列表
+  getDeptList(params?: Dept.Params) {
+    return request.get<Dept.DeptItem[]>('/dept/list', params)
+  },
+  // 获取当前账号下的所有用户
+  getAllUserList() {
+    return request.get<User.UserItem[]>('/users/all/list')
+  },
+  // 创建部门
+  createDept(params: Dept.CreateParams) {
+    return request.post('/dept/create', params)
+  },
+  // 编辑部门
+  editDept(params: Dept.EditParams) {
+    return request.post('/dept/edit', params)
+  },
+  // 删除部门
+  deleteDept(params: { _id: string }) {
+    return request.post('/dept/delete', params)
+  },
+  // 菜单管理
+  getMenuList(params?: Menu.Params) {
+    return request.get<Menu.MenuItem[]>('/menu/list', params)
+  },
+  // 创建菜单
+  createMenu(params: Menu.CreateParams) {
+    return request.post('/menu/create', params)
+  },
+  // 编辑菜单
+  editMenu(params: Menu.EditParams) {
+    return request.post('/menu/edit', params)
+  },
+  // 删除菜单
+  deleteMenu(params: { _id: string }) {
+    return request.post('/menu/delete', params)
   },
 }

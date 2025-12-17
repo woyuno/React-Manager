@@ -1,8 +1,8 @@
-import { Form, Input, Button } from 'antd'
-import style from './login.module.less'
 import api from '@/api/api'
 import { Login } from '@/types/types'
-import message from '@/utils/message'
+import { Button, Form, Input } from 'antd'
+import style from './login.module.less'
+// import message from '@/utils/message'
 import { useState } from 'react'
 export default function LoginFC() {
   const [loading, setLoading] = useState<boolean>(false)
